@@ -13,7 +13,7 @@ export function userFetchSuccess(payload: object) {
 export function getUser(page: number = 1, from?: string, to?: string): any {
   return async (dispatch: Function) => {
     try {
-      let url = `${baseUrl}/user/?page=${page}`
+      let url = `${baseUrl}/user/all/?page=${page}`
       if (from) url += `&from=${from}`
       if (to) url += `&to=${to}`
 

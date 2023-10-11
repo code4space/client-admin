@@ -78,14 +78,16 @@ export default function Page() {
                         <tr>
                             <th>Masuk</th>
                             <th>Pulang</th>
+                            <th>Nama</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {absenData.map(({ tgl_masuk, tgl_pulang }: { tgl_masuk: string, tgl_pulang: string }, i: number) => {
+                        {absenData.map(({ tgl_masuk, tgl_pulang, user }: { tgl_masuk: string, tgl_pulang: string, user:any }, i: number) => {
                             return (
                                 <tr key={i}>
                                     <td>{dateFormat(tgl_masuk)}</td>
-                                    <td>{tgl_pulang || '---'}</td>
+                                    <td>{dateFormat(tgl_pulang) || '---'}</td>
+                                    <td>{user.name}</td>
                                 </tr>
                             )
                         })}

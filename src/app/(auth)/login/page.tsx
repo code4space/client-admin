@@ -17,7 +17,7 @@ export default function Page() {
         e.preventDefault()
         const { email, password, } = data
         await axios({
-            url: baseUrl + `/user/login`,
+            url: baseUrl + `/admin/login`,
             method: "POST",
             data: { email, password }
         })
@@ -47,14 +47,13 @@ export default function Page() {
         <div className='login-container'>
             <div className='border-container'>
                 <div className='login-box'>
-                    <h3>KARYAWAN SIGN IN</h3>
+                    <h3>ADMIN SIGN IN</h3>
                     <form className='input-container' onSubmit={login}>
 
                         <InputEmail setState={setData} state={data} value={'email'} placeHolder={'Email'} />
                         <PasswordInput setState={setData} state={data} value={'password'} placeHolder={'Password'} strength={true} />
 
                         <button className='basic-button' type='submit'>Sign in</button>
-                        <p className='sign-up'>New user ? <b onClick={() => router.push('/signup')}>Sign Up</b></p>
                     </form>
                 </div>
             </div>

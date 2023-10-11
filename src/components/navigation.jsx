@@ -3,7 +3,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import SchoolIcon from '@mui/icons-material/School';
 import Person4Icon from '@mui/icons-material/Person4';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import CircleIcon from '@mui/icons-material/Circle';
@@ -107,24 +106,24 @@ export default function Navigation({ children }) {
         <div className="navigation-container">
 
             <div className={sideNavClass()}>
-                <h2>Karyawan {(isMobile && !isMinimize) ? <ChevronLeftOutlinedIcon onClick={() => setMinimize(!isMinimize)} /> : null}</h2>
+                <h2>ADMIN {(isMobile && !isMinimize) ? <ChevronLeftOutlinedIcon onClick={() => setMinimize(!isMinimize)} /> : null}</h2>
                 <div className="category">
                     <h4>Menu</h4>
-                    < SubCategory Icon={NoteAltOutlinedIcon}
-                        title={'Absen'}
-                        option={[
-                            { name: 'Masuk', path: '/absen' },
-                            { name: 'History Kehadiran', path: '/absen/history' },
-                        ]}
-                        id={2}
-                        active={active}
-                        setActive={setActive}
-                    />
                     < SubCategory1
-                        Icon={Person4Icon}
-                        title={'Profile'}
-                        path={'/profile'}
-                        handleClick={() => { handleNavigate('/profile') }} />
+                        Icon={NoteAltOutlinedIcon}
+                        title={'Absensi'}
+                        path={'/absen/history'}
+                        handleClick={() => { handleNavigate('/absen/history') }} />
+                    < SubCategory1
+                        Icon={Person4Icon} s
+                        title={'karyawan'}
+                        path={'/karyawan'}
+                        handleClick={() => { handleNavigate('/karyawan') }} />
+                    < SubCategory1
+                        Icon={NotificationsActiveOutlinedIcon}
+                        title={'Notifikasi'}
+                        path={'/notifikasi'}
+                        handleClick={() => { handleNavigate('/notifikasi') }} />
                     < SubCategory1
                         Icon={LogoutOutlinedIcon}
                         title={'Logout'}
@@ -150,7 +149,7 @@ export default function Navigation({ children }) {
                         onClick={() => setMinimize(!isMinimize)}>{isMinimize && !isHovered ? <MenuOutlinedIcon /> : <ChevronLeftOutlinedIcon />}</span>
                     <div className="introduction">
                         <h2>Welcome<CelebrationIcon /></h2>
-                        <p>Aplikasi absensi karyawan</p>
+                        <p>Aplikasi Admin</p>
                     </div>
                     <div className="right-nav">
                         <NotificationsNoneIcon />

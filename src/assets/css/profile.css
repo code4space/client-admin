@@ -74,7 +74,15 @@
   }
 }
 
-.profile-container .modal {
+.karyawan-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
   background-color: rgba(0, 0, 0, 0.404);
   position: absolute;
   height: 100%;
@@ -85,14 +93,14 @@
   justify-content: center;
 }
 
-.profile-container .modal .content {
+.modal .content {
   background-color: white;
   color: var(--primary-black);
   border-radius: 10px;
   width: clamp(250px, 50vw, 100%);
 }
 
-.profile-container .modal .content .header {
+.modal .content .header {
   display: flex;
   padding: 10px;
   align-items: center;
@@ -100,11 +108,11 @@
   border-bottom: 1px solid rgb(201, 201, 201);
 }
 
-.profile-container .modal .content .header svg {
+.modal .content .header svg {
   cursor: pointer;
 }
 
-.profile-container .modal .content .main {
+.modal .content .main {
   display: flex;
   padding: 10px;
   flex-direction: column;
@@ -112,7 +120,7 @@
   position: relative;
 }
 
-.profile-container .modal .content .main span {
+.modal .content .main span {
   width: 100%;
   border-bottom: 1px solid rgb(201, 201, 201);
 }

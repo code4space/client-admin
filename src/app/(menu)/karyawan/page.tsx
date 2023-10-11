@@ -1,13 +1,10 @@
 "use client"
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import EmailIcon from '@mui/icons-material/Email';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect, FormEvent } from 'react';
-import { Input, InputEmail, InputFile, PasswordInput } from '@/components/input';
+import { Input, InputEmail, InputFile } from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserState } from '@/store/reducers/user';
 import { getUser } from '@/store/actions/fetchUser';
-import Loading from '@/components/loading';
 import axios from 'axios';
 import { baseUrl } from '@/constant/url';
 import { getCookie } from '@/components/cookie';
@@ -24,27 +21,12 @@ export default function Page() {
         position: 'Fullstack Developer',
         name: 'Jaden Smith',
         image: "",
-        password: ''
+        id: ''
     })
 
     useEffect(() => {
-        const formData = new FormData();
         async function fetchData() {
             dispatch(getUser(1))
-            const response: any = await axios({
-                method: "GET",
-                url: baseUrl + '/user?page=1',
-                headers: { access_token: getCookie("access_token") }
-            })
-            const user = response.data.userInfo
-            setUserInfo({
-                email: user?.email || "",
-                phone: user?.phone || "",
-                position: user?.position || "",
-                name: user?.name || "",
-                image: user?.image || "",
-                password: user?.password || "",
-            })
         }
         fetchData()
     }, [])
@@ -58,8 +40,9 @@ export default function Page() {
             formData.append(key, userInfo[key]);
         }
 
+        console.log(formData)
         try {
-            await axios.patch(baseUrl + `/user`, formData, {
+            await axios.patch(baseUrl + `/admin`, formData, {
                 headers: { access_token: getCookie('access_token') },
             }).then((res) => {
                 setUserInfo({ ...userInfo, image: res.data.imagePath })
@@ -72,26 +55,42 @@ export default function Page() {
         }
     };
 
-    if (Array.isArray(user)) return <Loading />
+    function handleClick(id: string) {
+        setOpenModal(true)
+        const { _id, email, phone, name, position, image } = user.find(({ _id }: any) => _id === id)
+        setUserInfo({ id: _id, email, phone, name, position, image })
+    }
+
+    console.log(userInfo)
     return (
-        <div className="profile-container">
-            <div className="card-box">
-                <img src={`${baseUrl}/${userInfo.image}`} alt="profile" />
-                <p className="name">{userInfo.name}</p>
-                <p className="position">{userInfo.position}</p>
-                <div className="other-info">
-                    <span>
-                        <EmailIcon />
-                        <p>{userInfo.email}</p>
-                    </span>
-                    |
-                    <span>
-                        <LocalPhoneIcon />
-                        <p>{userInfo.phone}</p>
-                    </span>
-                </div>
+        <div className={openModal ? 'profile-container' : ''}>
+            <div className='card-box'>
+                <p className='title'><b>ADMIN</b></p>
+                <table className='history'>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Position</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {user.map(({ name, email, position, phone, image, _id }: any, i: number) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{name}</td>
+                                    <td>{email}</td>
+                                    <td>{position}</td>
+                                    <td>{phone}</td>
+                                    <td><button onClick={() => handleClick(_id)}>Ubah</button></td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
             </div>
-            <button onClick={() => setOpenModal(true)}>Ubah</button>
             {openModal ? <div className="modal">
                 <div className="content">
                     <div className="header">
@@ -110,9 +109,6 @@ export default function Page() {
                         </div>
                         <div className="inputBox">
                             <Input placeHolder={"Phone Number"} state={userInfo} setState={setUserInfo} value={"phone"} />
-                        </div>
-                        <div className="inputBox">
-                            <PasswordInput required={false} placeHolder={"New Password"} state={userInfo} setState={setUserInfo} value={"password"} strength={true} />
                         </div>
                         <div className="inputBox">
                             <InputFile required={false} state={userInfo} setState={setUserInfo} value={"image"} />
