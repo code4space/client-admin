@@ -1,9 +1,10 @@
-import { USER } from "../actions/actionType";
+import { LOGGER, USER } from "../actions/actionType";
 
 const initialState = {
     user: [],
     absen: [],
-    totalPage: 1
+    totalPage: 1,
+    logger: []
 }
 
 export interface UserState {
@@ -23,6 +24,11 @@ function UserReducer(state = initialState, action: any) {
                 user: action.payload.userInfo,
                 absen: action.payload.absen,
                 totalPage: action.payload.totalPages,
+            }
+        case LOGGER:
+            return {
+                ...state,
+                logger: action.payload.data,
             }
         default:
             return state;

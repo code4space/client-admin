@@ -1,4 +1,5 @@
 "use client"
+import { io } from "socket.io-client";
 import { usePathname, useRouter } from 'next/navigation';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CelebrationIcon from '@mui/icons-material/Celebration';
@@ -15,6 +16,9 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getLogger } from '@/store/actions/fetchUser';
+import { baseUrl } from "@/constant/url";
+import { swalTopEnd } from "./swal";
 
 function SubCategory({ Icon, title, option, id, active, setActive }) {
     const router = useRouter()
@@ -65,22 +69,50 @@ export default function Navigation({ children }) {
     const [isHovered, setIsHovered] = useState(false)
     const [countNew, setCountNew] = useState(0)
     const [isMobile, setIsMobile] = useState(false);
+    const [socket, setSocket] = useState(null);
+
+    const dispatch = useDispatch()
+    const logger = useSelector((state) => state.UserReducer.logger)
 
     useEffect(() => {
+        const newSocket = io(baseUrl, { transports: ['websocket'] });
+        setSocket(newSocket);
+
         const handleResize = () => {
             const isMobileDevice = window.innerWidth <= 800; // Set the breakpoint for mobile devices
             setIsMobile(isMobileDevice);
         };
 
+        function notification({ message }) {
+            swalTopEnd(message, 10000)
+            dispatch(getLogger())
+        }
+
+        newSocket.on("notification", notification)
+
         handleResize();
+        dispatch(getLogger())
 
         window.addEventListener('resize', handleResize);
 
         return () => {
+            newSocket.off("notification", notification)
+            newSocket.disconnect();
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
+    useEffect(() => {
+        let temp = 0
+        if (Array.isArray(logger)) {
+            logger.forEach(({ status }) => {
+                if (!status) temp++
+            })
+            setCountNew(temp)
+        }
+    }, [logger])
+
+    console.log(logger, countNew)
 
     const router = useRouter()
 
@@ -92,9 +124,6 @@ export default function Navigation({ children }) {
         document.cookie = "access_token=; max-age=0; path=/";
         router.push('/login')
     }
-
-    // const dispatch = useDispatch();
-    // const notification = useSelector((state) => state.StudentReducer.notification);
 
     function sideNavClass() {
         let className = ['side-navigation']
@@ -123,6 +152,7 @@ export default function Navigation({ children }) {
                         Icon={NotificationsActiveOutlinedIcon}
                         title={'Notifikasi'}
                         path={'/notifikasi'}
+                        alert={countNew}
                         handleClick={() => { handleNavigate('/notifikasi') }} />
                     < SubCategory1
                         Icon={LogoutOutlinedIcon}
