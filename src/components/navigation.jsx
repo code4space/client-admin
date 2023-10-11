@@ -100,7 +100,7 @@ export default function Navigation({ children }) {
             newSocket.disconnect();
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         let temp = 0

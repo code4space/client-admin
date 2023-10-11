@@ -26,7 +26,7 @@ export default function Page() {
             })
         })()
         dispatch(getLogger())
-    }, [])
+    }, [dispatch])
 
     function dateFormat(dateStr: string): string {
         const dateTime = new Date(dateStr)

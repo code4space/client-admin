@@ -33,7 +33,7 @@ export default function Page() {
 
     useEffect(() => {
         dispatch(getUser(1))
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (date.from.length > 0 && date.to.length > 0) {
@@ -45,7 +45,7 @@ export default function Page() {
                 swalErrorWithMessage("to date must be more than from")
             } else dispatch(getUser(1, date.from, date.to))
         }
-    }, [date.from, date.to])
+    }, [date.from, date.to, dispatch])
 
     function dateFormat(dateStr: string): string {
         const dateTime = new Date(dateStr)
@@ -53,7 +53,7 @@ export default function Page() {
         const hour = `${dateTime.getHours()}`.padStart(2, '0'); // Get the hour (0-23)
         const minute = `${dateTime.getMinutes()}`.padStart(2, '0'); // Get the minute (0-59)
         const time = `${hour}:${minute}`
-        return date + ' ' + time
+        return date + ' ' + time    
     }
 
     return (

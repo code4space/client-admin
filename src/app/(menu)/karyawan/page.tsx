@@ -29,7 +29,7 @@ export default function Page() {
             dispatch(getUser(1))
         }
         fetchData()
-    }, [])
+    }, [dispatch])
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

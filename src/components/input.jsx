@@ -38,7 +38,7 @@ export function PasswordInput({ state, setState, value, placeHolder, strength, r
         if (!value) temp = passwordStrengthParameter(state)
         else temp = passwordStrengthParameter(state[value])
         setPassword(temp)
-    }, [state])
+    }, [state, value])
 
     return (
         <div className='inputBox'>

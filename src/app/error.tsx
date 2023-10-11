@@ -6,7 +6,7 @@ interface AnimationSetting {
     [key: string]: object
 }
 
-export default function error({ error, reset }: { error: Error, reset: () => void }) {
+export default function Error({ error, reset }: { error: Error, reset: () => void }) {
     const animationSetting: AnimationSetting = {
         1: { '--err-duration': '2.5s', '--err-delay': '0s' },
         2: { '--err-duration': '2s', '--err-delay': '0.5s' },
@@ -18,15 +18,15 @@ export default function error({ error, reset }: { error: Error, reset: () => voi
     return (
         <div className="error">
             <div className="drop">
-                {Array.from({ length: 4 }, (_, i) => i + 1).map((el) => {
-                    return <span style={animationSetting[el]}></span>
+                {Array.from({ length: 4 }, (_, i) => i + 1).map((el, i) => {
+                    return <span style={animationSetting[el]} key={i}></span>
                 })}
             </div>
             <div className='error-content'>
                 <div className="stack">
-                    {Array.from({ length: 3 }, (_, i) => i).map((el) => {
+                    {Array.from({ length: 3 }, (_, i) => i).map((el, i) => {
                         const style: object = { '--index': el }
-                        return <h1 style={style}>ERROR</h1>
+                        return <h1 style={style} key={i}>ERROR</h1>
                     })}
                 </div>
                 <h2>{error.message || 'Something went wrong'}</h2>

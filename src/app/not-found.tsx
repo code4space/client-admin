@@ -16,15 +16,15 @@ export default function NotFound() {
     return (
         <div className="error">
             <div className="drop">
-                {Array.from({ length: 4 }, (_, i) => i + 1).map((el) => {
-                    return <span style={animationSetting[el]}></span>
+                {Array.from({ length: 4 }, (_, i) => i + 1).map((el, i) => {
+                    return <span style={animationSetting[el]} key={i}></span>
                 })}
             </div>
             <div className='error-content'>
                 <div className="stack">
-                    {Array.from({ length: 3 }, (_, i) => i).map((el) => {
+                    {Array.from({ length: 3 }, (_, i) => i).map((el, i) => {
                         const style: object = { '--index': el }
-                        return <h1 style={style}>404</h1>
+                        return <h1 style={style} key={i}>404</h1>
                     })}
                 </div>
                 <h2>PAGE NOT FOUND</h2>

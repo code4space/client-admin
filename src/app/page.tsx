@@ -28,7 +28,7 @@ export default function Home() {
     <Navigation>
       <main className="introduction">
         <h1>Hello {user.name}</h1>
-        <i>"{quotes}"</i>
+        <i>&quot;{quotes}&quot;</i>
       </main>
     </Navigation>
   );
